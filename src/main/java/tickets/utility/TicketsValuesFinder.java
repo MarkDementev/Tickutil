@@ -36,6 +36,7 @@ public class TicketsValuesFinder {
         Path fileAbsolutePath = getAbsolutePath(filePath);
         checkFileExistance(fileAbsolutePath);
         checkFileExtension(filePath);
+        //TODO Ещё нужна проверка, что все тикеты верные - одна и та же структура, ненулловые значения у ключей!
         String fileData = pathToData(fileAbsolutePath);
         List<Map<String, Object>> parsedJSONBeforeUselessCitiesRemoving = Parser.parseToList(fileData);
 
