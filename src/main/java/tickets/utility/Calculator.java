@@ -2,13 +2,25 @@ package tickets.utility;
 
 import java.util.Arrays;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Calculator {
-    public static Map<String, String> calculateMinimumFlightTime(List<Map<String, Object>> fileParsedToList) {
+    public static Map<String, Integer> calculateMinimumFlightTime(List<Map<String, Object>> fileParsedToList) {
+        Map<String, Integer> carriersWithMinimumTimes = new HashMap<>();
 
+        for (Map<String, Object> listElement : fileParsedToList) {
+            carriersWithMinimumTimes.put(listElement.get("carrier").toString(), 0);
+        }
+
+        for (Map.Entry<String, Integer> carrier : carriersWithMinimumTimes.entrySet()) {
+            for (Map<String, Object> listElement : fileParsedToList) {
+
+            }
+        }
+        return carriersWithMinimumTimes;
     }
 
     public static Double calculateDifferenceBetweenAveragePriceMedian(List<Map<String, Object>> fileParsedToList) {

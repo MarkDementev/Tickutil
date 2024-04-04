@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,19 +18,18 @@ public class TicketsValuesFinder {
     public static final String NO_CITIES_INFO_IN_FILE = "there is no information about the necessary" +
             " cities in the file!";
 
-    public static Object[] calculateValues(String filePath) throws Exception {
+    public static List<Object> calculateValues(String filePath) throws Exception {
         return calculateValues(filePath, DEFAULT_CITIES);
     }
 
-    public static Object[] calculateValues(String filePath, String cities) throws Exception {
+    public static List<Object> calculateValues(String filePath, String cities) throws Exception {
         List<Map<String, Object>> fileParsedToList = getData(filePath, cities);
+        List<Object> resultsList = new ArrayList<>();
 
-        Object[] resultsArr = new String[2];
+        resultsList.add(Calculator.calculateMinimumFlightTime(fileParsedToList));
+        resultsList.add(Calculator.calculateDifferenceBetweenAveragePriceMedian(fileParsedToList));
 
-        resultsArr[0] = Calculator.calculateMinimumFlightTime(fileParsedToList);
-        resultsArr[1] = String.valueOf(Calculator.calculateDifferenceBetweenAveragePriceMedian(fileParsedToList));
-
-        return resultsArr;
+        return resultsList;
     }
 
     private static List<Map<String, Object>> getData(String filePath, String cities) throws Exception {

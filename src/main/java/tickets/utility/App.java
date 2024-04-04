@@ -1,5 +1,6 @@
 package tickets.utility;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
@@ -27,10 +28,10 @@ public final class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        Object[] resultsArr = TicketsValuesFinder.calculateValues(filePath, cities);
+        List<Object> resultsList = TicketsValuesFinder.calculateValues(filePath, cities);
         System.out.print(
-                "1) Minimum flight time for each carrier = " + resultsArr[0] + "\n"
-                + "2) The difference between the average price and the median = " + resultsArr[1]
+                "1) Minimum flight time for each carrier = " + resultsList.get(0) + "\n"
+                + "2) The difference between the average price and the median = " + resultsList.get(1)
         );
         return 0;
     }
