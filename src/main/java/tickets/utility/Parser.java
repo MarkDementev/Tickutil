@@ -19,7 +19,7 @@ public class Parser {
 
     public static List<Map<String, String>> parseToList(String fileData, String cities)
             throws JsonProcessingException {
-        String[] citiesArr = cities.split(", ");
+        String[] citiesArr = cities.split(" ");
 
         if (citiesArr.length != 2) {
             throw new IllegalArgumentException(UNKNOWN_CITIES_ERROR);

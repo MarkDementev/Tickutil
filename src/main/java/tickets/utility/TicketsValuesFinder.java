@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TicketsValuesFinder {
-    private static final String DEFAULT_CITIES = "VVO, TLV";
+    private static final String DEFAULT_CITIES = "VVO TLV";
     public static final String UNKNOWN_EXTENSION_ERROR = "There is wrong filename extension.\nUtility works only with" +
             " JSON files!";
 

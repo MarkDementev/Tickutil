@@ -11,27 +11,27 @@ import picocli.CommandLine.Option;
 @Command(name = "tickutil", mixinStandardHelpOptions = true, version = "tickutil 1.0",
         description =
                 """
-                Utility finds 2 values in JSON file with array of air tickets.
+                Utility finds 2 type of values in JSON file with array of air tickets.
                 You can add city codes to specify the calculation.
                 By default, utility works with Владивосток (VVO) and Тель-Авив (TLV) cities.
                 Finds:
-                1) Minimum flight time between cities for each air carrier.
-                2) The difference between the average price and the median.
+                1) Minimum flight time in minutes between cities for each air carrier.
+                2) The difference between the average and the median prices between cities.
                 """)
 public final class App implements Callable<Integer> {
     @Parameters(paramLabel = "relative file path", index = "0", description = "file path to JSON file to work with")
     private String filePath;
 
     @Option(names = {"-c", "--cities"}, paramLabel = "cities",
-            description = "two cities codes separated by commas to work with [default: VVO, TLV]",
-            defaultValue = "VVO, TLV")
+            description = "two cities codes separated by whitespace to work with [default:VVO TLV]",
+            defaultValue = "VVO TLV")
     private String cities;
 
     @Override
     public Integer call() throws Exception {
         List<Object> resultsList = TicketsValuesFinder.calculateValues(filePath, cities);
         System.out.print(
-                "1) Minimum flight times for each carriers are " + resultsList.get(0) + "\n"
+                "1) Minimum flight times in minutes for each carriers are: " + resultsList.get(0) + "\n"
                 + "2) The difference between the average price and the median = " + resultsList.get(1)
         );
         return 0;

@@ -47,24 +47,24 @@ public class Calculator {
     }
 
     private static LocalDateTime[] getLocalDateTimesFromTicket(Map<String, String> ticket) {
-        String[] departureDatesArr;
-        String[] arrivalDatesArr;
-        String[] departureTimesArr;
-        String[] arrivalTimesArr;
         LocalDateTime[] resultsArr = new LocalDateTime[2];
+        String[] departureDatesArr;
+        String[] departureTimesArr;
+        String[] arrivalDatesArr;
+        String[] arrivalTimesArr;
 
         departureDatesArr = ticket.get("departure_date").split("\\.");
-        arrivalDatesArr = ticket.get("arrival_date").split("\\.");
         departureTimesArr = ticket.get("departure_time").split(":");
-        arrivalTimesArr = ticket.get("arrival_time").split(":");
-
-        resultsArr[0] = LocalDateTime.of(Integer.parseInt(
-                "20" + departureDatesArr[2]),
+        resultsArr[0] = LocalDateTime.of(
+                Integer.parseInt("20" + departureDatesArr[2]),
                 Integer.parseInt(departureDatesArr[1]),
                 Integer.parseInt(departureDatesArr[0]),
                 Integer.parseInt(departureTimesArr[0]),
                 Integer.parseInt(departureTimesArr[1])
         );
+
+        arrivalDatesArr = ticket.get("arrival_date").split("\\.");
+        arrivalTimesArr = ticket.get("arrival_time").split(":");
         resultsArr[1] = LocalDateTime.of(
                 Integer.parseInt("20" + arrivalDatesArr[2]),
                 Integer.parseInt(arrivalDatesArr[1]),
@@ -72,7 +72,6 @@ public class Calculator {
                 Integer.parseInt(arrivalTimesArr[0]),
                 Integer.parseInt(arrivalTimesArr[1])
         );
-
         return resultsArr;
     }
 
