@@ -18,18 +18,13 @@ public class Calculator {
 
         for (Map.Entry<String, Long> carrierInfo : carriersWithMinimumMinutesFly.entrySet()) {
             String carrierName = carrierInfo.getKey();
-            Long carrierMinimalMinutesFlight = carrierInfo.getValue();
 
             for (Map<String, String> ticket : fileParsedToList) {
-                String ticketCarrier = ticket.get("carrier");
+                if (ticket.get("carrier").equals(carrierName)) {
+                    LocalDateTime[] dateTimes = getLocalDateTimesFromTicket(ticket);
+                    Long ticketFlightTimeInMinutes = ChronoUnit.MINUTES.between(dateTimes[0], dateTimes[1]);
 
-                if (ticketCarrier.equals(carrierName)) {
-                    LocalDateTime[] departureDateTime = getLocalDateTimesFromTicket(ticket);
-                    Long ticketFlightTimeInMinutes = ChronoUnit.MINUTES.between(departureDateTime[0],
-                            departureDateTime[1]);
-
-                    if (carrierMinimalMinutesFlight == null
-                            || ticketFlightTimeInMinutes < carrierMinimalMinutesFlight) {
+                    if (carrierInfo.getValue() == null || carrierInfo.getValue() > ticketFlightTimeInMinutes) {
                         carriersWithMinimumMinutesFly.put(carrierName, ticketFlightTimeInMinutes);
                     }
                 }
@@ -94,6 +89,6 @@ public class Calculator {
         if (ticketsPrices.length % 2 != 0) {
             return (double) ticketsPrices[ticketsPrices.length / 2];
         }
-        return (double) (ticketsPrices[ticketsPrices.length / 2] + ticketsPrices[ticketsPrices.length / 2 + 1]) / 2;
+        return (double) (ticketsPrices[ticketsPrices.length / 2 - 1] + ticketsPrices[ticketsPrices.length / 2]) / 2;
     }
 }
