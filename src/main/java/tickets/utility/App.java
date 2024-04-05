@@ -12,7 +12,8 @@ import picocli.CommandLine.Option;
         description =
                 """
                 Utility finds 2 values in JSON file with array of air tickets.
-                By default, utility works with Владивосток and Тель-Авив cities.
+                You can add city codes to specify the calculation.
+                By default, utility works with Владивосток (VVO) and Тель-Авив (TLV) cities.
                 Finds:
                 1) Minimum flight time between cities for each air carrier.
                 2) The difference between the average price and the median.
@@ -22,8 +23,8 @@ public final class App implements Callable<Integer> {
     private String filePath;
 
     @Option(names = {"-c", "--cities"}, paramLabel = "cities",
-            description = "two cities separated by commas to work with [default: Владивосток, Тель-Авив]",
-            defaultValue = "Владивосток, Тель-Авив")
+            description = "two cities codes separated by commas to work with [default: VVO, TLV]",
+            defaultValue = "VVO, TLV")
     private String cities;
 
     @Override
