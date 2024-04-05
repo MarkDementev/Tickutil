@@ -52,7 +52,7 @@ public class TicketsValuesFinder {
         String fileExtension = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
 
         if (!fileExtension.equals("json")) {
-            throw new Exception(UNKNOWN_EXTENSION_ERROR);
+            throw new IOException(UNKNOWN_EXTENSION_ERROR);
         }
     }
 
