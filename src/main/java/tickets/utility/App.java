@@ -30,7 +30,7 @@ public final class App implements Callable<Integer> {
     public Integer call() throws Exception {
         List<Object> resultsList = TicketsValuesFinder.calculateValues(filePath, cities);
         System.out.print(
-                "1) Minimum flight time for each carrier = " + resultsList.get(0) + "\n"
+                "1) Minimum flight times for each carriers are " + resultsList.get(0) + "\n"
                 + "2) The difference between the average price and the median = " + resultsList.get(1)
         );
         return 0;

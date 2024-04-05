@@ -10,26 +10,27 @@ import java.util.Map;
 import java.util.Arrays;
 
 public class Calculator {
-    public static Map<String, Long> calculateMinimumFlightTime(List<Map<String, Object>> fileParsedToList) {
+    public static Map<String, Long> calculateMinimumFlightTime(List<Map<String, String>> fileParsedToList) {
         Map<String, Long> carriersWithMinimumMinutesFly = new HashMap<>();
 
-        for (Map<String, Object> ticket : fileParsedToList) {
-            carriersWithMinimumMinutesFly.put(String.valueOf(ticket.get("carrier")), null);
+        for (Map<String, String> ticket : fileParsedToList) {
+            carriersWithMinimumMinutesFly.put(ticket.get("carrier"), null);
         }
 
         for (Map.Entry<String, Long> carrierInfo : carriersWithMinimumMinutesFly.entrySet()) {
             String carrierName = carrierInfo.getKey();
             Long carrierMinimalMinutesFlight = carrierInfo.getValue();
 
-            for (Map<String, Object> ticket : fileParsedToList) {
-                String ticketCarrier = String.valueOf(ticket.get("carrier"));
+            for (Map<String, String> ticket : fileParsedToList) {
+                String ticketCarrier = ticket.get("carrier");
 
                 if (ticketCarrier.equals(carrierName)) {
                     LocalDateTime[] departureDateTime = getLocalDateTimesFromTicket(ticket);
                     Long ticketFlightTimeInMinutes = ChronoUnit.MINUTES.between(departureDateTime[0],
                             departureDateTime[1]);
 
-                    if (carrierMinimalMinutesFlight == null || ticketFlightTimeInMinutes < carrierMinimalMinutesFlight) {
+                    if (carrierMinimalMinutesFlight == null
+                            || ticketFlightTimeInMinutes < carrierMinimalMinutesFlight) {
                         carriersWithMinimumMinutesFly.put(carrierName, ticketFlightTimeInMinutes);
                     }
                 }
@@ -38,12 +39,12 @@ public class Calculator {
         return carriersWithMinimumMinutesFly;
     }
 
-    public static Double calculateDifferenceBetweenAveragePriceMedian(List<Map<String, Object>> fileParsedToList) {
+    public static Double calculateDifferenceBetweenAveragePriceMedian(List<Map<String, String>> fileParsedToList) {
         int[] ticketsPrices = new int[fileParsedToList.size()];
         int i = 0;
 
-        for (Map<String, Object> map : fileParsedToList) {
-            ticketsPrices[i++] = (int) map.get("price");
+        for (Map<String, String> map : fileParsedToList) {
+                ticketsPrices[i++] = Integer.parseInt(map.get("price"));
         }
         Double averagePrice = calculateAveragePrice(ticketsPrices);
         Double medianPrice = calculateMedianPrice(ticketsPrices);
@@ -51,17 +52,17 @@ public class Calculator {
         return averagePrice - medianPrice;
     }
 
-    private static LocalDateTime[] getLocalDateTimesFromTicket(Map<String, Object> ticket) {
+    private static LocalDateTime[] getLocalDateTimesFromTicket(Map<String, String> ticket) {
         String[] departureDatesArr;
         String[] arrivalDatesArr;
         String[] departureTimesArr;
         String[] arrivalTimesArr;
         LocalDateTime[] resultsArr = new LocalDateTime[2];
 
-        departureDatesArr = ticket.get("departure_date").toString().split("\\.");
-        arrivalDatesArr = ticket.get("arrival_date").toString().split("\\.");
-        departureTimesArr = ticket.get("departure_time").toString().split(":");
-        arrivalTimesArr = ticket.get("arrival_time").toString().split(":");
+        departureDatesArr = ticket.get("departure_date").split("\\.");
+        arrivalDatesArr = ticket.get("arrival_date").split("\\.");
+        departureTimesArr = ticket.get("departure_time").split(":");
+        arrivalTimesArr = ticket.get("arrival_time").split(":");
 
         resultsArr[0] = LocalDateTime.of(Integer.parseInt(
                 "20" + departureDatesArr[2]),

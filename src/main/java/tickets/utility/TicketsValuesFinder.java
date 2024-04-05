@@ -14,16 +14,13 @@ public class TicketsValuesFinder {
     private static final String DEFAULT_CITIES = "Владивосток, Тель-Авив";
     public static final String UNKNOWN_EXTENSION_ERROR = "There is wrong filename extension.\nUtility works only with" +
             " JSON files!";
-    public static final String UNKNOWN_CITIES_ERROR = "There is something wrong in cities input!";
-    public static final String NO_CITIES_INFO_IN_FILE = "there is no information about the necessary" +
-            " cities in the file!";
 
     public static List<Object> calculateValues(String filePath) throws Exception {
         return calculateValues(filePath, DEFAULT_CITIES);
     }
 
     public static List<Object> calculateValues(String filePath, String cities) throws Exception {
-        List<Map<String, Object>> fileParsedToList = getData(filePath, cities);
+        List<Map<String, String>> fileParsedToList = getData(filePath, cities);
         List<Object> resultsList = new ArrayList<>();
 
         resultsList.add(Calculator.calculateMinimumFlightTime(fileParsedToList));
@@ -32,15 +29,13 @@ public class TicketsValuesFinder {
         return resultsList;
     }
 
-    private static List<Map<String, Object>> getData(String filePath, String cities) throws Exception {
+    private static List<Map<String, String>> getData(String filePath, String cities) throws Exception {
         Path fileAbsolutePath = getAbsolutePath(filePath);
         checkFileExistance(fileAbsolutePath);
         checkFileExtension(filePath);
-        //TODO Ещё нужна проверка, что все тикеты верные - одна и та же структура, ненулловые значения у ключей!
         String fileData = pathToData(fileAbsolutePath);
-        List<Map<String, Object>> parsedJSONBeforeUselessCitiesRemoving = Parser.parseToList(fileData);
 
-        return removeUselessCities(parsedJSONBeforeUselessCitiesRemoving, cities);
+        return Parser.parseToList(fileData, cities);
     }
 
     private static Path getAbsolutePath(String filePath) {
@@ -63,26 +58,5 @@ public class TicketsValuesFinder {
 
     private static String pathToData(Path absoluteFilePath) throws IOException {
         return Files.readString(absoluteFilePath);
-    }
-
-    private static List<Map<String, Object>> removeUselessCities(
-            List<Map<String, Object>> parsedJSONBeforeUselessCitiesRemoving, String cities) {
-        String[] citiesArr = cities.split(", ");
-
-        if (citiesArr.length != 2) {
-            throw new IllegalArgumentException(UNKNOWN_CITIES_ERROR);
-        }
-
-        List<Map<String, Object>> clearedList = parsedJSONBeforeUselessCitiesRemoving.stream()
-                .filter(map ->
-                        (map.get("origin_name") == citiesArr[0] && map.get("destination_name") == citiesArr[1])
-                        ||
-                        (map.get("origin_name") == citiesArr[1] && map.get("destination_name") == citiesArr[0])
-                ).toList();
-
-        if (clearedList.size() == 0) {
-            throw new IllegalArgumentException(NO_CITIES_INFO_IN_FILE);
-        }
-        return clearedList;
     }
 }
