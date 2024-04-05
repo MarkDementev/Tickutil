@@ -51,4 +51,8 @@ public class TicketsValuesFinderTest {
 
         assertEquals(result, correctResult);
     }
+
+    @Test
+    public void testNoFile() {
+    }
 }
