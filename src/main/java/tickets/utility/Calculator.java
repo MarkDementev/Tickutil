@@ -3,8 +3,11 @@ package tickets.utility;
 import java.time.LocalDateTime;
 
 import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.IntStream;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
 
 public class Calculator {
     public static Map<String, Long> calculateMinimumFlightTime(List<Map<String, Object>> fileParsedToList) {
@@ -22,9 +25,9 @@ public class Calculator {
                 String ticketCarrier = String.valueOf(ticket.get("carrier"));
 
                 if (ticketCarrier.equals(carrierName)) {
-                    LocalDateTime departureDateTime = getLocalDateTimeFromTicket(ticket, "departure");
-                    LocalDateTime arrivalDateTime = getLocalDateTimeFromTicket(ticket, "arrival");
-                    Long ticketFlightTimeInMinutes = ChronoUnit.MINUTES.between(departureDateTime, arrivalDateTime);
+                    LocalDateTime[] departureDateTime = getLocalDateTimesFromTicket(ticket);
+                    Long ticketFlightTimeInMinutes = ChronoUnit.MINUTES.between(departureDateTime[0],
+                            departureDateTime[1]);
 
                     if (carrierMinimalMinutesFlight == null || ticketFlightTimeInMinutes < carrierMinimalMinutesFlight) {
                         carriersWithMinimumMinutesFly.put(carrierName, ticketFlightTimeInMinutes);
@@ -48,35 +51,41 @@ public class Calculator {
         return averagePrice - medianPrice;
     }
 
-    private static LocalDateTime getLocalDateTimeFromTicket(Map<String, Object> ticket, String whatToGetKey) {
-        int[] datesArr = new int[6];
+    private static LocalDateTime[] getLocalDateTimesFromTicket(Map<String, Object> ticket) {
+        String[] departureDatesArr;
+        String[] arrivalDatesArr;
+        String[] departureTimesArr;
+        String[] arrivalTimesArr;
+        LocalDateTime[] resultsArr = new LocalDateTime[2];
 
+        departureDatesArr = ticket.get("departure_date").toString().split("\\.");
+        arrivalDatesArr = ticket.get("arrival_date").toString().split("\\.");
+        departureTimesArr = ticket.get("departure_time").toString().split(":");
+        arrivalTimesArr = ticket.get("arrival_time").toString().split(":");
 
-        String[] dateString = {ticket.get("departure_date").toString().substring(6),
-                ticket.get("arrival_date").toString().substring(6)};
-        int year;
-        Integer month;
-        Integer day;
-        Integer hour;
-        Integer minute;
+        resultsArr[0] = LocalDateTime.of(Integer.parseInt(
+                "20" + departureDatesArr[2]),
+                Integer.parseInt(departureDatesArr[1]),
+                Integer.parseInt(departureDatesArr[0]),
+                Integer.parseInt(departureTimesArr[0]),
+                Integer.parseInt(departureTimesArr[1])
+        );
+        resultsArr[1] = LocalDateTime.of(
+                Integer.parseInt("20" + arrivalDatesArr[2]),
+                Integer.parseInt(arrivalDatesArr[1]),
+                Integer.parseInt(arrivalDatesArr[0]),
+                Integer.parseInt(arrivalTimesArr[0]),
+                Integer.parseInt(arrivalTimesArr[1])
+        );
 
-        switch (whatToGetKey) {
-            case "departure" :
-                year = 2000 + Integer.parseInt(dateString[0]);
-
-                break;
-            case "arrival" :
-                year = 2000 + Integer.parseInt(dateString[1]);
-
-                break;
-            default :
-                throw new RuntimeException();
-        }
-        return LocalDateTime.of(year, month, day, hour, minute);
+        return resultsArr;
     }
 
     private static Double calculateAveragePrice(int[] ticketsPrices) {
-        return IntStream.of(ticketsPrices).average().getAsDouble();
+        return Arrays.stream(ticketsPrices)
+                .mapToDouble(Double::valueOf)
+                .average()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     private static Double calculateMedianPrice(int[] ticketsPrices) {
