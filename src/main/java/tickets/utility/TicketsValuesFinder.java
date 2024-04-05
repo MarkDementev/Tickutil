@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class TicketsValuesFinder {
 
     public static List<Object> calculateValues(String filePath, String cities) throws Exception {
         List<Map<String, String>> fileParsedToList = getData(filePath, cities);
-        List<Object> resultsList = new ArrayList<>();
+        List<Object> resultsList = new LinkedList<>();
 
         resultsList.add(Calculator.calculateMinimumFlightTime(fileParsedToList));
         resultsList.add(Calculator.calculateDifferenceBetweenAveragePriceMedian(fileParsedToList));

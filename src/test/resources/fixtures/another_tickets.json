@@ -1,0 +1,39 @@
+{
+  "tickets": [{
+    "origin": "VVO",
+    "origin_name": "Владивосток",
+    "destination": "TLV",
+    "destination_name": "Тель-Авив",
+    "departure_date": "12.05.18",
+    "departure_time": "16:20",
+    "arrival_date": "12.05.18",
+    "arrival_time": "22:10",
+    "carrier": "Aeroflot",
+    "stops": 3,
+    "price": 12000
+  }, {
+    "origin": "VVO",
+    "origin_name": "Владивосток",
+    "destination": "TLV",
+    "destination_name": "Тель-Авив",
+    "departure_date": "12.05.18",
+    "departure_time": "17:20",
+    "arrival_date": "12.05.18",
+    "arrival_time": "23:50",
+    "carrier": "Fantasy carrier",
+    "stops": 1,
+    "price": 10000
+  }, {
+      "origin": "VVO",
+      "origin_name": "Владивосток",
+      "destination": "TLV",
+      "destination_name": "Тель-Авив",
+      "departure_date": "12.05.18",
+      "departure_time": "17:30",
+      "arrival_date": "13.05.18",
+      "arrival_time": "00:00",
+      "carrier": "Fantasy carrier",
+      "stops": 1,
+      "price": 14000
+    }]
+}
