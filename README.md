@@ -4,7 +4,7 @@ Utility calculates 2 type of values in JSON file with array of air tickets.
 You can add city codes to specify the calculation.
 By default, utility works with Владивосток (VVO) and Тель-Авив (TLV) cities.
 
-# JSON file format structure
+## JSON file format structure
 
 The keys below are necessary, but the values are invented:
 
@@ -26,7 +26,7 @@ The keys below are necessary, but the values are invented:
 }
 ```
 
-# Utility usage
+## Utility usage
 
 Usage: tickutil [-hV] [-c=cities] relative file path
 
