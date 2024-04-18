@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group = 'forIdeaPlatform'
+group = 'Tickutil'
 version = '1.0-SNAPSHOT'
 
 repositories {
